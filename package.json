@@ -1,0 +1,84 @@
+{
+	"name": "airflow-dag-viewer",
+	"displayName": "Airflow DAG Viewer",
+	"description": "Speed up your DAG authoring flow by quickly visualizing the Graph View of your Airflow DAGs within VS Code",
+	"version": "1.0.0",
+	"publisher": "WesleyBatista",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/WesleyBatista/vscode-airflow-dag-viewer"
+	},
+	"bugs": {
+		"url": "https://github.com/WesleyBatista/vscode-airflow-dag-viewer/issues"
+	},
+	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#0CB6FF",
+		"theme": "dark"
+	},
+	"engines": {
+		"vscode": "^1.66.0"
+	},
+	"categories": ["Visualization", "Other"],
+	"activationEvents": [
+		"onLanguage:python",
+		"onCommand:airflow-dag-viewer.dagPreview",
+		"onCommand:airflow-dag-viewer.showDags",
+		"onWebviewPanel:dagPreview"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "airflow-dag-viewer.showDags",
+				"category": "Airflow Dag Viewer",
+				"title": "$(type-hierarchy) Preview DAG ID"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Airflow Dag Viewer",
+			"properties": {
+				"airflow-dag-viewer.airflowBinary": {
+					"type": "string",
+					"default": "airflow",
+					"markdownDescription": "Absolute filepath to the binary or simply `airflow`"
+				},
+				"airflow-dag-viewer.dagsFolder": {
+					"type": "string",
+					"markdownDescription": "Additional DAGs Folder to look into. Defaults to `AIRFLOW__CORE__DAGS_FOLDER` env var. Mainly used for `--subdir` cli option"
+				},
+				"airflow-dag-viewer.temporaryRelativePath": {
+					"type": "string",
+					"default": ".airflow-dag-viewer",
+					"description": "Folder within the current workspace folder where temporary files will be written to"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run build",
+		"build": "tsup src/extension.ts --dts --external=vscode",
+		"dev": "npm run build -- --watch",
+		"release": "npx bumpp --commit --tag --push",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"lint": "eslint src --ext ts"
+	},
+	"devDependencies": {
+		"@antfu/eslint-config": "^0.19.4",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.0",
+		"@types/node": "14.x",
+		"@types/vscode": "^1.66.0",
+		"@typescript-eslint/eslint-plugin": "^5.16.0",
+		"@typescript-eslint/parser": "^5.16.0",
+		"eslint": "^8.12.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.2.2",
+		"tsup": "^5.12.2",
+		"types-package-json": "^2.0.39",
+		"typescript": "^4.5.5"
+	}
+}
